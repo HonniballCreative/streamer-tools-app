@@ -1,5 +1,6 @@
 <template>
   <div id="app" class="conatiner-fluid">
+    <app-loader msg="Loading Application" />
     <router-view></router-view>
   </div>
 </template>
