@@ -1,24 +1,31 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
-const Path = require('path')
+const path = require('path')
+const fs = require('fs')
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1000,
+    height: 1000,
+    icon: path.join(app.getAppPath(), 'src', 'assets', 'icon.png'),
     webPreferences: {
-      preload: Path.join(__dirname, 'preload.js'),
+      preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
       contextIsolation: true,
     }
   });
 
-  if (process.env.NODE_ENV === 'development') {
+  if(process.env.NODE_ENV === 'development') {
     const rendererPort = process.argv[2];
     mainWindow.loadURL(`http://localhost:${rendererPort}`);
+    mainWindow.webContents.openDevTools()
+  } else {
+    mainWindow.loadFile(path.join(app.getAppPath(), 'renderer', 'index.html'));
   }
-  else {
-    mainWindow.loadFile(Path.join(app.getAppPath(), 'renderer', 'index.html'));
-  }
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url)
+    return { action: 'deny' }
+  })
 }
 
 app.whenReady().then(() => {
@@ -27,14 +34,14 @@ app.whenReady().then(() => {
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) {
+    if(BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
+  if(process.platform !== 'darwin') app.quit()
 });
 
 ipcMain.on('message', (event, message) => {
