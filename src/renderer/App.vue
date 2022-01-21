@@ -18,5 +18,9 @@ export default defineComponent({
   setup() {
     ipcRenderer.send('message', 'Hello from App.vue!');
   },
-})
+});
 </script>
+
+<style lang="scss">
+@import "scss/bootstrap.scss";
+</style>
