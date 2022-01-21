@@ -4,7 +4,7 @@ import {defineComponent} from 'vue';
 export default defineComponent({
   data() {
     return {
-      msg: 'Electron + Vue 3 template'
+      msg: 'You\'re at the home page!'
     }
   }
 });
@@ -13,8 +13,8 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <h1>Hello World</h1>
-    <p>Here...</p>
+    <h1>Welcome Home!</h1>
+    <p>{{msg}}</p>
   </div>
 </template>
 

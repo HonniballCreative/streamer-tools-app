@@ -1,9 +1,9 @@
-import Hello from '@/routes/hello.vue'
+import Home from '@/routes/home.vue'
 
 export default [
   {
-    name: 'Hello',
+    name: 'Home',
     path: '/',
-    component: Hello
+    component: Home
   },
 ]
