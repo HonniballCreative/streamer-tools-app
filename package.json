@@ -1,8 +1,9 @@
 {
-  "name": "electron-vue-template",
+  "name": "stream-tools-app",
   "version": "0.1.0",
-  "description": "A minimal Electron + Vue application",
+  "description": "Streamerific stream tools application.",
   "main": "src/main/main.js",
+  "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "node scripts/dev-server.js",
     "build": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json",
@@ -10,10 +11,10 @@
     "build:mac": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --linux"
   },
-  "repository": "https://github.com/deluze/electron-vue-template",
+  "repository": "https://github.com/Streamerific/stream-tools-app",
   "author": {
-    "name": "Deluze",
-    "url": "https://github.com/Deluze"
+    "name": "Streamerific",
+    "url": "https://Streamerific.com"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",
