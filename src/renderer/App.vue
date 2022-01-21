@@ -17,7 +17,8 @@ export default defineComponent({
     }
   },
   mounted() {
-    ipcRenderer.send('message', 'Hello from App.vue!');
+    ipcRenderer.send('message', 'Hello from App.vue!')
+    this.loading = false
   }
 });
 </script>
