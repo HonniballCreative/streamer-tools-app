@@ -1,6 +1,6 @@
 <template>
   <div id="app" class="conatiner-fluid">
-    <app-loader msg="Loading Application" />
+    <app-loader v-if="loading" id="main-app-loader" msg="Loading Application" />
     <router-view></router-view>
   </div>
 </template>
@@ -9,13 +9,16 @@
 import { defineComponent } from 'vue';
 import { ipcRenderer } from '@/electron';
 
-
 export default defineComponent({
   name: 'app',
-  components: {},
-  setup() {
-    ipcRenderer.send('message', 'Hello from App.vue!');
+  data() {
+    return {
+      loading: true,
+    }
   },
+  mounted() {
+    ipcRenderer.send('message', 'Hello from App.vue!');
+  }
 });
 </script>
 
