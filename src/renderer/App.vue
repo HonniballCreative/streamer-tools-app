@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="conatiner-fluid">
+  <div id="app" class="container-fluid">
     <app-loader v-if="loading" id="main-app-loader" msg="Loading Application" />
     <router-view></router-view>
   </div>
@@ -23,5 +23,4 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import "scss/bootstrap.scss";
 </style>

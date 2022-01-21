@@ -13,8 +13,8 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <h1>Welcome Home!</h1>
-    <p>{{msg}}</p>
+    <h1 class="animate__animated animate__fadeInUp">Welcome Home!</h1>
+    <p class="animate__animated animate__fadeInUp animate__delay-1s">{{msg}}</p>
   </div>
 </template>
 

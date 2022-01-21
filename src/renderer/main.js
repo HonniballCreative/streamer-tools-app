@@ -13,6 +13,9 @@ const router = createRouter({
 
 import App from './App.vue'
 
+import './scss/bootstrap.scss'
+import '../../node_modules/animate.css/animate.min.css'
+
 const app = createApp(App);
 app.component('app-loader', AppLoader);
 app.use(router);
