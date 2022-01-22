@@ -90,7 +90,7 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="randomize-no">No</label>
 
           <div class="form-text">
-            This option will randomly select a video from your selected videos.
+            This option will randomly select a video from your list of videos.
           </div>
         </div>
       </div>
@@ -105,13 +105,13 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="all-no">One Video Only</label>
 
           <div class="form-text">
-            This option tells the randomizer to continue playing through all of the videos in your list until every video has been played.
+            This option tells the randomizer to eithr play a single video or continue playing through all of your videos until each has been played.
           </div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Loop once all videos have been played?</label>
+        <label class="form-label">Loop video(s)?</label>
         <div class="mb-4">
           <input type="radio" class="btn-check" name="loop" autocomplete="off" value="yes" id="loop-yes" v-model="formData.loop">
           <label class="btn btn-outline-primary mx-1" for="loop-yes">Yes</label>
@@ -120,17 +120,20 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="loop-no">No</label>
 
           <div class="form-text">
-            This option will loop through the video(s) after every video in your list has been played.
-            <ul>
-              <li>If you have "All Videos" selected and this setting on "Yes"; playback will start over once each video has been played.</li>
+            This option will loop through the video(s) after every video in your list has been played. Depending on the "How many..." setting the following will happen:
+            <ul class="mb-0">
+              <li>If you have "All Videos" selected and this option is set to "Yes"; playback will start over once each video has been played once.</li>
               <li>If you have "One Video Only" selected and this setting on "Yes"; a single video will loop forever.</li>
+              <li>If you have "All Videos" selected and this option is set to "No"; playback will stop once each video has been played once.</li>
+              <li>If you have "One Video Only" selected and this setting on "No"; a single video will play once.</li>
             </ul>
+            <em>Note: For ALL scenarios you will need to either hide/show the browser source OR switch to an alternate scene and return for the randomizer to restart.</em>
           </div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Prevent repeats?</label>
+        <label class="form-label">Attempt to prevent starting video repeats?</label>
         <div class="mb-4">
           <input type="radio" class="btn-check" name="preventRepeat" autocomplete="off" value="yes" id="preventRepeat-yes" v-model="formData.preventRepeat">
           <label class="btn btn-outline-primary mx-1" for="preventRepeat-yes">Yes</label>
@@ -139,14 +142,14 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="preventRepeat-no">No</label>
 
           <div class="form-text">
-            This option will attempt to prevent videos from repeating when the source is hidden then shown again. This will prevent the same video from playing twice in a row. <em>Please note: this uses the browser source <code>localStorage</code> and therefor may not work depending on your system and version of OBS Studio.</em>
+            This option will attempt to prevent videos from repeating when the randomizer restarts. <em>Please note: this uses the browser source <code>localStorage</code> and therefor may not work depending on your system and version of OBS Studio.</em>
           </div>
         </div>
       </div>
 
       <hr class="my-3">
 
-      <h3>Included Video Files</h3>
+      <h3>Included Video Files &ndash; <span class="text-muted">{{formData.files.length}} videos</span></h3>
 
       <div class="input-group">
         <input type="file" class="form-control" ref="filepicker" accept="video/*" multiple @change="filesSelected"/>
