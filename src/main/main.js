@@ -5,7 +5,9 @@ const fs = require('fs')
 const userPreferences = require('./user-preferences.js')
 
 function createWindow () {
-  // First we'll get our height and width. This will be the defaults if there wasn't anything saved
+  const appDir = path.join(app.getPath('documents'), app.getName())
+  if(!fs.existsSync(appDir)) fs.mkdirSync(appDir)
+
   let { width, height } = userPreferences.get('windowBounds');
 
   const mainWindow = new BrowserWindow({
@@ -21,7 +23,6 @@ function createWindow () {
   if(process.env.NODE_ENV === 'development') {
     const rendererPort = process.argv[2];
     const loadUrl = `http://127.0.0.1:${rendererPort}`;
-    console.log(loadUrl);
     mainWindow.loadURL(loadUrl);
     mainWindow.webContents.openDevTools()
   } else {
@@ -60,12 +61,8 @@ app.on('window-all-closed', function () {
   if(process.platform !== 'darwin') app.quit()
 });
 
-ipcMain.on('message', (event, message) => {
-  console.log(message);
-})
-
-ipcMain.handle('load-preferences', (event) => {
-  return userPreferences
+ipcMain.on('load-preferences', (event) => {
+  event.returnValue = userPreferences.data
 })
 
 ipcMain.handle('form-submit', (event, formData) => {

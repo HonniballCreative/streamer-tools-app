@@ -1,5 +1,6 @@
 {
   "name": "stream-tools-app",
+  "productName": "Streamerific Tools",
   "version": "0.2.0",
   "description": "Streamerific stream tools application.",
   "main": "src/main/main.js",

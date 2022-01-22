@@ -20,9 +20,7 @@ import '../../node_modules/animate.css/animate.min.css'
 
 const app = createApp(App);
 
-await loadPreferences().then(prefs => {
-  app.config.globalProperties.USER_PREFERENCES = prefs
-})
+app.config.globalProperties.USER_PREFERENCES = loadPreferences()
 
 app.component('app-loader', AppLoader);
 app.use(router);
