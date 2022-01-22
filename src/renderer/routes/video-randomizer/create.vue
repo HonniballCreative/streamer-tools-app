@@ -171,6 +171,21 @@ export default defineComponent({
 
       <p>Select the video files you would like included in your randomizer.</p>
 
+      <h6>Hints:</h6>
+      <ul>
+        <li>You can select files from multiple locations by selecting files then clicking "Choose Files" as many times as you'd like.</li>
+        <li>You are allowed to select multiple files in each "Choose Files" dialog window.</li>
+        <li>When choosing files you can select a <em>range</em> of files by <em>clicking</em> on the first file in a list then <em>holding the shift key and clicking</em> on the last file within that list.</li>
+        <li>
+          When choosing files you can select multiple <em>disconnected</em> files by:
+          <ul class="mb-0">
+            <li>Windows/Linux: <em>clicking</em> on any file in the folder then <em>holding the control key and clicking</em> on multiple other files.</li>
+            <li>Mac: <em>clicking</em> on any file in the folder then <em>holding the command (apple) key and clicking</em> on multiple other files.</li>
+          </ul>
+          <em>Warning: After multiple files are selected and you click on another file <strong>without</strong> holding the associated key you will lose your selection and have to start from a single selected file.</em>
+        </li>
+      </ul>
+
       <p class="text-danger">Note: Drag and drop is currently <strong>NOT</strong> supported.</p>
 
       <div class="input-group">
