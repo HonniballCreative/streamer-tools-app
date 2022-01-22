@@ -7,7 +7,7 @@ function createWindow () {
   const mainWindow = new BrowserWindow({
     width: 1000,
     height: 1000,
-    icon: path.join(app.getAppPath(), 'assets', 'icon.png'),
+    icon: path.join(app.getAppPath(), 'static', 'icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -59,12 +59,14 @@ ipcMain.handle('form-submit', (event, formData) => {
       type: 'error',
       title: 'Unable to Save Randomizer'
     })
-    event.reply('form-process-fail', 'No files selected...')
-    return;
+    return {
+      status: 'error',
+      message: 'No files selected...'
+    }
   }
 
   const templateFileContents = fs.readFileSync(
-    path.join(app.getAppPath(), 'assets', 'randomizer-play.html'),
+    path.join(app.getAppPath(), 'static', 'randomizer-play.html'),
     { encoding:'utf8', flag:'r' }
   );
 
