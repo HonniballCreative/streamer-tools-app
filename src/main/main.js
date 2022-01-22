@@ -2,15 +2,7 @@ const { app, BrowserWindow, ipcMain, dialog, shell, clipboard } = require('elect
 const path = require('path')
 const fs = require('fs')
 
-const Store = require('./store.js')
-
-const userPreferences = new Store({
-  // We'll call our data file 'user-preferences'
-  configName: 'user-preferences',
-  defaults: {
-    windowBounds: { width: 1000, height: 1000 }
-  }
-});
+const userPreferences = require('./user-preferences.js')
 
 function createWindow () {
   // First we'll get our height and width. This will be the defaults if there wasn't anything saved
