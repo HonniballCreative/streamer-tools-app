@@ -6,9 +6,9 @@ class Store {
   constructor(opts) {
     // Renderer process has to get `app` module via `remote`, whereas the main process can get it directly
     // app.getPath('userData') will return a string of the user's app data directory path.
-    const userDataPath = (electron.app || electron.remote.app).getPath('documents');
+    const userDocsPath = (electron.app || electron.remote.app).getPath('documents');
     // We'll use the `configName` property to set the file name and path.join to bring it all together as a string
-    this.path = path.join(userDataPath, electron.app.getName(), opts.configName + '.json');
+    this.path = path.join(userDocsPath, electron.app.getName(), opts.configName + '.json');
 
     this.data = parseDataFile(this.path, opts.defaults);
   }

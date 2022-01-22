@@ -23,7 +23,7 @@ export default defineComponent({
   methods: {
     submitFormData(){
       const convertedFormData = JSON.parse(JSON.stringify(this.formData))
-      const promise = ipcRenderer.invoke('form-submit', convertedFormData)
+      const promise = ipcRenderer.invoke('create-randomizer-file', convertedFormData)
 
       promise.then((result) => {
         console.log(
