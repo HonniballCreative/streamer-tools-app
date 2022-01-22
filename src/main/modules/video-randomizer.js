@@ -1,4 +1,4 @@
-const { app, ipcMain, dialog, shell, clipboard } = require('electron')
+const { app, ipcMain, dialog, clipboard } = require('electron')
 const path = require('path')
 const fs = require('fs')
 const Store = require('../store/index.js')
@@ -10,14 +10,10 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
   const destFile = 'randomizer.html'
 
   if(formData.files.length < 1){
-    dialog.showMessageBox({
-      message: 'Please add some video files.',
-      type: 'error',
-      title: 'Unable to Save Randomizer'
-    })
     return {
       status: 'error',
-      message: 'No files selected...'
+      title: 'Unable to Save Randomizer',
+      message: 'Please add some video files.',
     }
   }
 
@@ -28,10 +24,22 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
 
   const newFileContents = templateFileContents.replace(settingsStr, JSON.stringify(formData))
 
+  const defaultRandomizerFolder = path.join(
+    (app || remote.app).getPath('documents'),
+    app.getName(),
+    'video-randomizers'
+  )
+  if(!fs.existsSync(defaultRandomizerFolder)) fs.mkdirSync(defaultRandomizerFolder)
+
+  const filePath = path.join(
+    defaultRandomizerFolder,
+    destFile
+  )
+
   const userSelectedPath = dialog.showSaveDialogSync({
     title: 'Save Your Randomizer File.',
     buttonLabel: 'Save Randomizer',
-    defaultPath: path.join(app.getPath('downloads'), destFile),
+    defaultPath: filePath,
     filters: [
       { name: 'HTML Randomizer', extensions: ['html'] }
     ],
@@ -44,26 +52,17 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
     }
   } else {
     fs.writeFileSync(userSelectedPath, newFileContents, 'utf8')
-
-    dialog.showMessageBox({
-      buttons: ['Yes', 'No'],
-      message: 'Randomizer saved and URL copied to your clipboard!\nWould you like to open your randomizer in your browser?',
-      type: 'none',
-      title: 'Randomizer Saved and Loaded!',
-      noLink: true,
-    }).then((result) => {
-      clipboard.writeText(`file:///${userSelectedPath.replace(/\\{1,2}/g, '/')}`)
-
-      if(result.response === 0){
-        shell.openExternal(userSelectedPath)
-      }
-    })
+    clipboard.writeText(`file:///${userSelectedPath.replace(/\\{1,2}/g, '/')}`)
 
     let existingFiles = randomizerStore.get('files')
+    let existingFile = existingFiles.find((f) => f.path === userSelectedPath)
     // If the filename already exists in the store then the user is
     // overwriting the file.
-    if(existingFiles.indexOf(userSelectedPath) === -1){
-      existingFiles.push(userSelectedPath)
+    if(!existingFile){
+      existingFiles.push({
+        path: userSelectedPath,
+        valid: true,
+      })
       randomizerStore.set('files', existingFiles)
     }
 
@@ -73,5 +72,27 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
       formData: formData,
       savePath: userSelectedPath,
     }
+  }
+})
+
+ipcMain.handle('delete-randomizer-file', (event, filePath) => {
+  try {
+    fs.unlinkSync(filePath)
+  } catch(e){
+    // we don't really care if it works...
+  }
+
+  let existingFiles = randomizerStore.get('files')
+  let existingFileIndex = existingFiles.findIndex((f) => f.path === filePath)
+  // If the filename already exists in the store then the user is
+  // overwriting the file.
+  if(existingFileIndex !== -1){
+    existingFiles.splice(existingFileIndex, 1)
+    randomizerStore.set('files', existingFiles)
+  }
+
+  return {
+    status: 'success',
+    message: 'File deleted!'
   }
 })

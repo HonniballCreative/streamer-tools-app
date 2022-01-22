@@ -17,10 +17,12 @@ import App from './App.vue'
 
 import './scss/bootstrap.scss'
 import '../../node_modules/animate.css/animate.min.css'
+// import '../../node_modules/bootstrap/dist/js/bootstrap.min.js'
 
 const app = createApp(App);
 
-app.config.globalProperties.USER_PREFERENCES = loadPreferences()
+const uiPrefs = loadPreferences('ui')
+app.config.globalProperties.UI_PREFERENCES = uiPrefs
 
 app.component('app-loader', AppLoader);
 app.use(router);

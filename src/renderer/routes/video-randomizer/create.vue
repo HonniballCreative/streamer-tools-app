@@ -4,7 +4,7 @@ import { ipcRenderer } from '@/electron'
 import { Modal } from 'bootstrap'
 
 export default defineComponent({
-  name: 'VideoRandomizer',
+  name: 'VideoRandomizerCreate',
 
   data() {
     return {
@@ -14,6 +14,12 @@ export default defineComponent({
         loop: 'yes',
         preventRepeat: 'yes',
         files: [],
+      },
+
+      error: {
+        status: 'error',
+        title: '',
+        message: '',
       },
 
       modalLink: '',
@@ -26,15 +32,16 @@ export default defineComponent({
       const promise = ipcRenderer.invoke('create-randomizer-file', convertedFormData)
 
       promise.then((result) => {
-        console.log(
-          '%cTEST ->\n\tresult[%s]: %O',
-          'font-size: 14px; color: #DC143C;',
-          typeof result,
-          result
-        )
-        this.modalLink = result.savePath
+        if(result.status === 'error'){
+          this.error = result
+          this.errorDialog.show();
+          return;
+        } else if(result.status === 'cancelled'){
+          return;
+        }
 
-        this.dialog.show();
+        this.modalLink = result.savePath
+        this.successDialog.show();
       })
     },
 
@@ -50,13 +57,17 @@ export default defineComponent({
   },
 
   mounted(){
-    this.dialog = new Modal(this.$refs['modal'], {
+    this.errorDialog = new Modal(this.$refs['errorDialog'], {
+      keyboard: false
+    })
+    this.successDialog = new Modal(this.$refs['successDialog'], {
       keyboard: false
     })
   },
 
   unmounted(){
-    this.dialog.dispose();
+    this.errorDialog.dispose();
+    this.successDialog.dispose();
   }
 });
 </script>
@@ -64,12 +75,6 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <p>Welcome to the Streamerific Video Randomizer! This tool allows you to have a randomly selected video play when you <em>switch to a scene</em> or <em>hide/show the controlling browser source</em> in OBS Studio. Using the options below you can customize the behavior of the randomizer to suit your needs.</p>
-
-    <p>If you have any questions or have trouble getting it to work please contact <a href="https://twitter.com/StreamerEdu" target="_blank">@StreamerEdu</a> on Twitter.</p>
-
-    <hr class="my-3">
-
     <form id="form">
       <h2>Options</h2>
 
@@ -85,28 +90,28 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="randomize-no">No</label>
 
           <div class="form-text">
-            This option will randomize all videos provided.
+            This option will randomly select a video from your selected videos.
           </div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Play all videos?</label>
+        <label class="form-label">How many videos do you want the randomizer to play?</label>
         <div class="mb-4">
           <input type="radio" class="btn-check" name="all" autocomplete="off" value="yes" id="all-yes" v-model="formData.all">
-          <label class="btn btn-outline-primary mx-1" for="all-yes">Yes</label>
+          <label class="btn btn-outline-primary mx-1" for="all-yes">All Videos</label>
 
           <input type="radio" class="btn-check" name="all" autocomplete="off" value="no" id="all-no" v-model="formData.all">
-          <label class="btn btn-outline-danger mx-1" for="all-no">No</label>
+          <label class="btn btn-outline-danger mx-1" for="all-no">One Video Only</label>
 
           <div class="form-text">
-            This option will play through all videos provided.
+            This option tells the randomizer to continue playing through all of the videos in your list until every video has been played.
           </div>
         </div>
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Loop once complete?</label>
+        <label class="form-label">Loop once all videos have been played?</label>
         <div class="mb-4">
           <input type="radio" class="btn-check" name="loop" autocomplete="off" value="yes" id="loop-yes" v-model="formData.loop">
           <label class="btn btn-outline-primary mx-1" for="loop-yes">Yes</label>
@@ -115,10 +120,10 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="loop-no">No</label>
 
           <div class="form-text">
-            This option will loop through the video(s) after playback completes.
+            This option will loop through the video(s) after every video in your list has been played.
             <ul>
-              <li>If you have "all" set to "yes" then playback will start over and loop through the collection again.</li>
-              <li>If you set "all" to "no" then a single video will loop forever.</li>
+              <li>If you have "All Videos" selected and this setting on "Yes"; playback will start over once each video has been played.</li>
+              <li>If you have "One Video Only" selected and this setting on "Yes"; a single video will loop forever.</li>
             </ul>
           </div>
         </div>
@@ -134,14 +139,14 @@ export default defineComponent({
           <label class="btn btn-outline-danger mx-1" for="preventRepeat-no">No</label>
 
           <div class="form-text">
-            This option will attempt to prevent videos from repeating when the source is hidden then shown again. <em>Please note: this uses the browser source <code>localStorage</code> and therefor may not work.</em>
+            This option will attempt to prevent videos from repeating when the source is hidden then shown again. This will prevent the same video from playing twice in a row. <em>Please note: this uses the browser source <code>localStorage</code> and therefor may not work depending on your system and version of OBS Studio.</em>
           </div>
         </div>
       </div>
 
       <hr class="my-3">
 
-      <h3>Video Files</h3>
+      <h3>Included Video Files</h3>
 
       <div class="input-group">
         <input type="file" class="form-control" ref="filepicker" accept="video/*" multiple @change="filesSelected"/>
@@ -158,13 +163,30 @@ export default defineComponent({
 
       <nav class="navbar fixed-bottom navbar-light bg-light">
         <div class="container-fluid justify-content-end">
-          <button type="button" class="btn btn-primary rounded-pill" @click="submitFormData">Submit</button>
+          <router-link :to="{ name: 'VideoRandomizer' }" class="me-auto btn btn-outline-primary rounded-pill"><i class="me-2 fas fa-chevron-double-left"></i>Back</router-link>
+
+          <button type="button" class="btn btn-primary rounded-pill" @click="submitFormData"><i class="me-2 fas fa-save"></i>Create</button>
         </div>
       </nav>
     </form>
 
+    <div class="modal fade" ref="errorDialog" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{error.title}}</h5>
+          </div>
+          <div class="modal-body">
+            <p>{{error.message}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <div class="modal" ref="modal" tabindex="-1">
+    <div class="modal" ref="successDialog" tabindex="-1">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -172,7 +194,7 @@ export default defineComponent({
           </div>
           <div class="modal-body">
             <p><strong>Your Browser Source URL:</strong></p>
-            <p class="font-monospace text-danger">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
+            <p class="font-monospace text-danger text-break border p-1 rounded">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
             <p>We've also copied the URL for your browser source onto your clipboard.</p>
           </div>
           <div class="modal-footer">

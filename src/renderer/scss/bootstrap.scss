@@ -14,6 +14,8 @@ $danger:        #de0000;
 $light:         #F2F2F2;
 $dark:          #404040;
 
+$enable-cssgrid: true;
+
 // 3. Include remainder of required Bootstrap stylesheets
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
@@ -29,3 +31,5 @@ $dark:          #404040;
   left: 0%;
   background: rgba(black, .7);
 }
+
+.cursor-pointer { cursor: pointer !important; }

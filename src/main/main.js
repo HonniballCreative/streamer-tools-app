@@ -63,8 +63,9 @@ app.on('window-all-closed', function () {
   if(process.platform !== 'darwin') app.quit()
 });
 
-ipcMain.on('load-preferences', (event) => {
-  event.returnValue = userPreferences.data
+ipcMain.on('load-preferences', (event, type) => {
+  const prefs = new Store(type);
+  event.returnValue = prefs.data
 })
 
 require('./modules/video-randomizer.js')

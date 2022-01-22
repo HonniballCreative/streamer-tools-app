@@ -2,8 +2,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer,
-  loadPreferences: () => {
-    let prefs = ipcRenderer.sendSync('load-preferences')
+  loadPreferences: (type) => {
+    let prefs = ipcRenderer.sendSync('load-preferences', type)
     return prefs
   },
 })

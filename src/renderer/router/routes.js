@@ -1,15 +1,39 @@
+import SimpleRouter from '@/components/simple-router.vue'
+
 import Home from '@/routes/home.vue'
-import VideoRandomizer from '@/routes/video-randomizer.vue'
+
+import VideoRandomizerIndex from '@/routes/video-randomizer/index.vue'
+import VideoRandomizerCreate from '@/routes/video-randomizer/create.vue'
 
 export default [
   {
+    component: Home,
     name: 'Home',
     path: '/',
-    component: Home
+    meta: {
+      headerTitle: 'home',
+    }
   },
   {
-    name: 'VideoRandomizer',
+    component: SimpleRouter,
     path: '/video-randomizer',
-    component: VideoRandomizer
+    children: [
+      {
+        component: VideoRandomizerIndex,
+        name: 'VideoRandomizer',
+        path: 'index',
+        meta: {
+          headerTitle: 'Video Randomizer',
+        }
+      },
+      {
+        component: VideoRandomizerCreate,
+        name: 'VideoRandomizerCreate',
+        path: 'create',
+        meta: {
+          headerTitle: 'Create New Video Randomizer',
+        }
+      },
+    ]
   },
 ]

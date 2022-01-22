@@ -2,6 +2,7 @@ const electron = require('electron');
 const path = require('path');
 const fs = require('fs');
 const defaults = require('./defaults.js')
+const validators = require('./validators.js')
 
 class Store {
   constructor(name) {
@@ -37,6 +38,10 @@ class Store {
 
     if(fs.existsSync(this.path)){
       prefs = JSON.parse(fs.readFileSync(this.path));
+    }
+
+    if(typeof validators[this.configName] === 'function'){
+      prefs = validators[this.configName](prefs)
     }
 
     return prefs
