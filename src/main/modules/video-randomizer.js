@@ -1,16 +1,9 @@
 const { app, ipcMain, dialog, shell, clipboard } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const Store = require('../store/index.js')
 
-const Store = require('../store.js')
-
-const randomizerStore = new Store({
-  // We'll call our data file 'user-preferences'
-  configName: 'video-randomizer',
-  defaults: {
-    files: []
-  }
-});
+const randomizerStore = new Store('video-randomizer');
 
 ipcMain.handle('create-randomizer-file', (event, formData) => {
   const settingsStr = '{/* settings */}'

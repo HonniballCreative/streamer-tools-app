@@ -2,7 +2,9 @@ const { app, BrowserWindow, ipcMain, shell } = require('electron')
 const path = require('path')
 const fs = require('fs')
 
-const userPreferences = require('./user-preferences.js')
+const Store = require('./store/index.js')
+
+const userPreferences = new Store('ui');
 
 function createWindow () {
   const appDir = path.join(app.getPath('documents'), app.getName())
