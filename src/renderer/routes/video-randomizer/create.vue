@@ -54,6 +54,11 @@ export default defineComponent({
 
       e.target.value = '';
     },
+
+    removeFile(path){
+      const fileIndex = this.formData.files.indexOf(path)
+      this.formData.files.splice(fileIndex, 1)
+    }
   },
 
   mounted(){
@@ -158,6 +163,10 @@ export default defineComponent({
 
       <ul class="list-group mt-3" id="listing">
         <li class="list-group-item" v-for="filePath in formData.files" :key="filePath">
+          <i class="fas fa-times text-danger cursor-pointer p-2"
+            @click="removeFile(filePath)"
+          ></i>
+
           {{filePath}}
         </li>
       </ul>
