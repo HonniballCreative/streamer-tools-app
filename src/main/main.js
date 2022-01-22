@@ -64,6 +64,10 @@ ipcMain.on('message', (event, message) => {
   console.log(message);
 })
 
+ipcMain.handle('load-preferences', (event) => {
+  return userPreferences
+})
+
 ipcMain.handle('form-submit', (event, formData) => {
   const settingsStr = '{/* settings */}'
   const destFile = 'randomizer.html'

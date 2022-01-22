@@ -5,6 +5,8 @@ import routes from '@/router/routes.js'
 
 import AppLoader from '@/components/app-loader.vue'
 
+import { loadPreferences } from '@/electron'
+
 const router = createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
   history: createWebHashHistory(),
@@ -17,6 +19,11 @@ import './scss/bootstrap.scss'
 import '../../node_modules/animate.css/animate.min.css'
 
 const app = createApp(App);
+
+await loadPreferences().then(prefs => {
+  app.config.globalProperties.USER_PREFERENCES = prefs
+})
+
 app.component('app-loader', AppLoader);
 app.use(router);
 

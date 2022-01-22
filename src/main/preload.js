@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer,
+  loadPreferences: () => ipcRenderer.invoke('load-preferences'),
 })
 
 ipcRenderer.on('form-process-success', (event, arg) => {
