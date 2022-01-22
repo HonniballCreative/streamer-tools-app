@@ -16,7 +16,9 @@ function createWindow () {
 
   if(process.env.NODE_ENV === 'development') {
     const rendererPort = process.argv[2];
-    mainWindow.loadURL(`http://localhost:${rendererPort}`);
+    const loadUrl = `http://127.0.0.1:${rendererPort}`;
+    console.log(loadUrl);
+    mainWindow.loadURL(loadUrl);
     mainWindow.webContents.openDevTools()
   } else {
     mainWindow.loadFile(path.join(app.getAppPath(), 'renderer', 'index.html'));
