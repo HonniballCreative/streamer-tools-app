@@ -12,7 +12,7 @@ export default defineComponent({
 
 
 <template>
-  <nav class="navbar fixed-top navbar-dark bg-dark">
+  <nav class="navbar fixed-top navbar-dark bg-dark animate__animated animate__fadeInDown">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">Streamerific Tools</router-link>
     </div>
