@@ -2,11 +2,23 @@ const { app, BrowserWindow, ipcMain, dialog, shell, clipboard } = require('elect
 const path = require('path')
 const fs = require('fs')
 
+const Store = require('./store.js')
+
+const userPreferences = new Store({
+  // We'll call our data file 'user-preferences'
+  configName: 'user-preferences',
+  defaults: {
+    windowBounds: { width: 1000, height: 1000 }
+  }
+});
+
 function createWindow () {
-  console.log(app.getAppPath())
+  // First we'll get our height and width. This will be the defaults if there wasn't anything saved
+  let { width, height } = userPreferences.get('windowBounds');
+
   const mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 1000,
+    width: width,
+    height: height,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
@@ -23,6 +35,16 @@ function createWindow () {
   } else {
     mainWindow.loadFile(path.join(app.getAppPath(), 'renderer', 'index.html'));
   }
+
+  // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
+  // to listen to events on the BrowserWindow. The resize event is emitted when the window size changes.
+  mainWindow.on('resize', () => {
+    // The event doesn't pass us the window size, so we call the `getBounds` method which returns an object with
+    // the height, width, and x and y coordinates.
+    let { width, height } = mainWindow.getBounds();
+    // Now that we have them, save them using the `set` method.
+    userPreferences.set('windowBounds', { width, height });
+  });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url)
