@@ -1,7 +1,12 @@
 <template>
-  <div id="app" class="container-fluid">
+  <div class="app-container pt-5">
     <app-loader v-if="loading" id="main-app-loader" msg="Loading Application" />
-    <router-view></router-view>
+
+    <app-menu />
+
+    <div class="container-fluid pt-4">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -9,8 +14,13 @@
 import { defineComponent } from 'vue';
 import { ipcRenderer } from '@/electron';
 
+import AppMenu from './components/app-menu.vue'
+
 export default defineComponent({
-  name: 'app',
+  name: 'App',
+  components: {
+    AppMenu
+  },
   data() {
     return {
       loading: true,

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Version: 2.1 -->
+  <script type="text/javascript">
+    window.settings = {/* settings */};
+  </script>
+
+  <!-- Altering stuff below can break the component unless you know what you're doing. -->
+  <style>
+    html, body, #thevideo {
+      background: transparent;
+      overflow: hidden;
+    }
+
+    #thevideo {
+      width: 100% !important;
+      height: auto;
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <video src="" id="thevideo" autoplay playsinline></video>
+
+  <script type="text/javascript">
+    function getVideoPath(sources) {
+      var vidPath = null;
+      var lastVid = ((typeof Storage !== "undefined")) ? window.localStorage.getItem("streamerific-last-video") : null;
+      var randomIndex = (window.settings.randomize === 'yes') ? Math.floor((Math.random() * sources.length)) : 0;
+
+      console.log('lastVid\n%s', lastVid);
+
+      var stop = false;
+      do {
+        vidPath = sources
+          .splice(randomIndex, 1)
+          .pop()
+          .split('/')
+          .pop();
+        console.log('vidPath\n%s', vidPath);
+
+        if(lastVid !== vidPath || window.settings.preventRepeat === 'yes') {
+          stop = true;
+        }
+      } while(stop === false);
+
+      if(typeof Storage !== "undefined") {
+        window.localStorage.setItem("streamerific-last-video", vidPath);
+      }
+
+      return vidPath;
+    }
+
+    var playRandomVideo = function(sources) {
+      var activeVideo = getVideoPath(sources);
+
+      console.log('Playing "%s"...', activeVideo);
+
+      window.settings.vidElement.style.visibility = "visible";
+
+      // update the video source and play
+      window.settings.vidElement.src = activeVideo;
+      window.settings.vidElement.load();
+      window.settings.vidElement.play();
+    };
+
+    window.settings.vidElement = document.getElementById('thevideo');
+
+    window.settings.vidElement.addEventListener('ended', function(e) {
+      if(window.settings.all === 'yes') {
+        if(window.settings.sourcesTracker < 1) {
+          if(window.settings.loop === 'yes') {
+            console.log('vidElement[ended] -> No more sources to play but LOOP is enabled... Starting queue over.');
+            window.settings.sourcesTracker = window.settings.files.slice();
+          } else {
+            // No more sources to play. Hide the player.
+            window.settings.vidElement.style.visibility = "hidden";
+            console.log('vidElement[ended] -> No more sources to play... Player hidden.');
+            return;
+          }
+        }
+
+        playRandomVideo(window.settings.sourcesTracker);
+      } else {
+        if(window.settings.loop === 'yes') {
+          console.log('vidElement[ended] -> No more sources to play but LOOP is enabled... Starting video over.');
+          window.settings.vidElement.currentTime = 0;
+          window.settings.vidElement.play();
+        } else {
+          // We're not playing through "all" videos. Hide the element.
+          window.settings.vidElement.style.visibility = "hidden";
+          console.log('vidElement[ended] -> No more sources to play... Player hidden.');
+        }
+      }
+    });
+
+    window.settings.sourcesTracker = window.settings.files.slice();
+
+    if(window.location.protocol === 'file:') {
+      // Not using a web server. Expect that there are paths provided.
+      if(window.settings.files.length < 1) {
+        // No sources were provided.
+        // Do nothing at all...
+      } else {
+        // We have sources... Play them.
+        window.onload = function() {
+          playRandomVideo(window.settings.sourcesTracker);
+        };
+      }
+    }
+  </script>
+</body>
+</html>
