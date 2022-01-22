@@ -25,31 +25,31 @@
 
   <script type="text/javascript">
     function getVideoPath(sources) {
-      var vidPath = null;
-      var lastVid = ((typeof Storage !== "undefined")) ? window.localStorage.getItem("streamerific-last-video") : null;
-      var randomIndex = (window.settings.randomize === 'yes') ? Math.floor((Math.random() * sources.length)) : 0;
+      window.settings.vidPath = null;
+      window.settings.lastVid = ((typeof Storage !== "undefined")) ? window.localStorage.getItem("streamerific-last-video") : null;
+      window.settings.randomIndex = (window.settings.randomize === 'yes') ? Math.floor((Math.random() * (sources.length - 1))) : 0;
 
-      console.log('lastVid\n%s', lastVid);
+      console.log('lastVid\n%s', window.settings.lastVid);
 
       var stop = false;
       do {
-        vidPath = sources
-          .splice(randomIndex, 1)
+        window.settings.vidPath = sources
+          .splice(window.settings.randomIndex, 1)
           .pop()
           .split('/')
           .pop();
-        console.log('vidPath\n%s', vidPath);
+        console.log('vidPath\n%s', window.settings.vidPath);
 
-        if(lastVid !== vidPath || window.settings.preventRepeat === 'yes') {
+        if(window.settings.lastVid !== window.settings.vidPath || window.settings.preventRepeat !== 'yes') {
           stop = true;
         }
       } while(stop === false);
 
       if(typeof Storage !== "undefined") {
-        window.localStorage.setItem("streamerific-last-video", vidPath);
+        window.localStorage.setItem("streamerific-last-video", window.settings.vidPath);
       }
 
-      return vidPath;
+      return window.settings.vidPath;
     }
 
     var playRandomVideo = function(sources) {

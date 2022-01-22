@@ -46,6 +46,13 @@ export default defineComponent({
       })
     },
 
+    dropFile(e){
+      const files = e.dataTransfer.files
+      for(let i = 0; i < files.length; i++) {
+        this.formData.files.push(files[i].path);
+      };
+    },
+
     filesSelected(e){
       let files = e.target.files;
 
@@ -56,9 +63,24 @@ export default defineComponent({
       e.target.value = '';
     },
 
-    removeFile(path){
-      const fileIndex = this.formData.files.indexOf(path)
-      this.formData.files.splice(fileIndex, 1)
+    removeFile(e, path){
+      const btn = e.target
+      const li = btn.parentNode
+      li.classList.remove('animate__fadeInUp')
+      li.classList.add('animate__animated', 'animate__bounceOutLeft')
+      setTimeout(() => {
+        const fileIndex = this.formData.files.indexOf(path)
+        this.formData.files.splice(fileIndex, 1)
+      }, 1000)
+    },
+
+    clearAll(e){
+      const list = this.$refs['file-list']
+      list.classList.add('animate__animated', 'animate__bounceOutLeft')
+      setTimeout(() => {
+        this.formData.files = []
+        list.classList.remove('animate__animated', 'animate__bounceOutLeft')
+      }, 1000)
     }
   },
 
@@ -80,7 +102,7 @@ export default defineComponent({
 
 
 <template>
-  <div class="component-container">
+  <div class="component-container" @drop.prevent="dropFile" @dragover.prevent>
     <form id="form">
       <h1>Configure Your New Video Randomizer</h1>
 
@@ -167,14 +189,14 @@ export default defineComponent({
 
       <hr class="my-3">
 
-      <h3>Included Video Files &ndash; <span class="text-muted">{{formData.files.length}} videos</span></h3>
+      <h3>Included Videos <span class="text-muted fw-normal fsp-70">&ndash; {{formData.files.length}} videos</span></h3>
 
       <p>Select the video files you would like included in your randomizer.</p>
 
       <h6>Hints:</h6>
-      <ul>
+      <ul class="fsp-90">
         <li>You can select files from multiple locations by selecting files then clicking "Choose Files" as many times as you'd like.</li>
-        <li>You are allowed to select multiple files in each "Choose Files" dialog window.</li>
+        <li>You are allowed to select multiple files.</li>
         <li>When choosing files you can select a <em>range</em> of files by <em>clicking</em> on the first file in a list then <em>holding the shift key and clicking</em> on the last file within that list.</li>
         <li>
           When choosing files you can select multiple <em>disconnected</em> files by:
@@ -186,17 +208,19 @@ export default defineComponent({
         </li>
       </ul>
 
-      <p class="text-danger">Note: Drag and drop is currently <strong>NOT</strong> supported.</p>
-
       <div class="input-group">
         <input type="file" class="form-control" ref="filepicker" accept="video/*" multiple @change="filesSelected"/>
-        <button class="btn btn-outline-secondary" type="button" @click="formData.files = []">Clear</button>
+        <button class="btn btn-outline-danger" type="button" @click="clearAll">Remove All</button>
       </div>
 
-      <ul class="list-group mt-3" id="listing">
-        <li class="list-group-item" v-for="filePath in formData.files" :key="filePath">
+      <p class="text-info bg-info bg-opacity-10 border border-info rounded fs-4 fw-normal my-3 p-3 d-flex align-items-center justify-content-center" style="height: 100px;">
+        <i class="fas fa-chevron-square-down me-3 animate__animated animate__heartBeat animate__slower animate__infinite"></i>Drag and drop files here...
+      </p>
+
+      <ul class="list-group mt-3" ref="file-list">
+        <li class="list-group-item animate__animated animate__fadeInUp" v-for="filePath in formData.files" :key="filePath">
           <i class="fas fa-times text-danger cursor-pointer p-2"
-            @click="removeFile(filePath)"
+            @click="removeFile($event, filePath)"
           ></i>
 
           {{filePath}}

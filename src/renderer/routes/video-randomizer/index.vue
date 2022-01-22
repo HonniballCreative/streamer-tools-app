@@ -83,10 +83,10 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <h1>Video Randomizer Tool</h1>
+    <h1><i class="fas fa-film"></i> Video Randomizer Tool</h1>
     <p class="lead fw-normal">This tool allows you to create browser source compatible HTML that will play a random video from a list of video files on your computer.</p>
 
-    <h6>If you have any questions or have trouble getting it to work please contact <a href="https://twitter.com/StreamerEdu" target="_blank">@StreamerEdu</a> on Twitter.</h6>
+    <h6>If you have any questions or have trouble getting it to work please contact <a href="{{ LINKS.twitter }}" target="_blank">@StreamerEdu</a> on Twitter.</h6>
 
     <hr class="my-3">
 
@@ -94,7 +94,7 @@ export default defineComponent({
       <div class="g-col-6 d-flex align-items-stretch">
         <div class="card w-100">
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title">Create a New Randomizer</h5>
+            <h5 class="card-title"><i class="fas fa-layer-plus"></i> Create a New Randomizer</h5>
             <p class="card-text">Setup options and select videos for a new video randomizer. Then paste the URL into a browser source in OBS Studio.</p>
             <div class="mt-auto">
               <router-link :to="{ name: 'VideoRandomizerCreate' }" class="btn btn-success"><i class="me-2 fas fa-plus"></i>Create</router-link>
@@ -105,7 +105,7 @@ export default defineComponent({
       <div class="g-col-6 d-flex align-items-stretch">
         <div class="card w-100">
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title">View the Video Tutorial</h5>
+            <h5 class="card-title"><i class="fab fa-youtube"></i> View the Video Tutorial</h5>
             <p class="card-text">I've created an in-depth tutorial on usage of this tool. It's available on the Streamer Education YouTube channel!</p>
             <div class="mt-auto">
               <a href="https://www.youtube.com/channel/UCif1IkNaiXd2xe0G_tz1F2w" class="btn btn-danger" target="_blank"><i class="me-2 fas fa-external-link"></i>Watch on YouTube</a>
@@ -154,7 +154,7 @@ export default defineComponent({
     </ul>
     <div class="card text-dark bg-info bg-opacity-10" v-else>
       <div class="card-body text-center">
-        <h5 class="card-title">No Randomizers!</h5>
+        <h5 class="card-title"><i class="far fa-frown"></i> No Randomizers!</h5>
         <p class="card-text">You have not created any randomizers!</p>
       </div>
     </div>

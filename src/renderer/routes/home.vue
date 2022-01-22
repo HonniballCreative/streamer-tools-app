@@ -15,9 +15,9 @@ export default defineComponent({
 
     <div class="card" style="width: 18rem;">
       <div class="card-body">
-        <h5 class="card-title">Video Randomizer Tool</h5>
+        <h5 class="card-title"><i class="fas fa-film"></i> Video Randomizer Tool</h5>
         <p class="card-text">Create browser source compatible files to pick a random video from a list of files that you choose!</p>
-        <router-link :to="{ name: 'VideoRandomizer' }" class="d-block btn btn-primary">Configure</router-link>
+        <router-link :to="{ name: 'VideoRandomizerIndex' }" class="d-block btn btn-primary">Configure</router-link>
       </div>
     </div>
   </div>

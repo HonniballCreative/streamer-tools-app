@@ -32,4 +32,4 @@ $enable-cssgrid: true;
   background: rgba(black, .7);
 }
 
-.cursor-pointer { cursor: pointer !important; }
+@import 'includes/overrides';

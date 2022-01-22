@@ -11,19 +11,24 @@ export default [
     name: 'Home',
     path: '/',
     meta: {
-      headerTitle: 'home',
+      title: 'Welcome',
     }
   },
   {
+    name: 'VideoRandomizer',
     component: SimpleRouter,
     path: '/video-randomizer',
+    redirect: { name: 'VideoRandomizerIndex' },
+    meta: {
+      title: 'Video Randomizer',
+    },
     children: [
       {
         component: VideoRandomizerIndex,
-        name: 'VideoRandomizer',
+        name: 'VideoRandomizerIndex',
         path: 'index',
         meta: {
-          headerTitle: 'Video Randomizer',
+          title: 'Welcome',
         }
       },
       {
@@ -31,7 +36,7 @@ export default [
         name: 'VideoRandomizerCreate',
         path: 'create',
         meta: {
-          headerTitle: 'Create New Video Randomizer',
+          title: 'Create New Randomizer',
         }
       },
     ]
