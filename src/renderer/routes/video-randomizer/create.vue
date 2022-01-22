@@ -9,6 +9,7 @@ export default defineComponent({
   data() {
     return {
       formData: {
+        version: '3.0.0',
         randomize: 'yes',
         all: 'yes',
         loop: 'yes',
@@ -81,9 +82,21 @@ export default defineComponent({
 <template>
   <div class="component-container">
     <form id="form">
+      <h1>Configure Your New Video Randomizer</h1>
+
+      <p>Fill out the options below and select files that you'd like to include in your video randomizer.</p>
+
+      <h3><i class="me-2 fas fa-exclamation-triangle text-warning"></i>Precautions</h3>
+
+      <ul>
+        <li>Moving videos from their location after setting up a video randomizer will cause it to stop playback when it can't locate a video in the list.</li>
+      </ul>
+
+      <hr class="my-3">
+
       <h2>Options</h2>
 
-      <p class="text-danger">Setting <em>play all videos</em> and/or <em>Loop once complete</em> options to "yes" will require you to either <em>hide the source</em> or <em>switch to another scene</em> to halt video playback.</p>
+      <input type="hidden" name="version" v-model="formData.version">
 
       <div class="mb-3">
         <label class="form-label">Randomize Videos?</label>
@@ -155,6 +168,10 @@ export default defineComponent({
       <hr class="my-3">
 
       <h3>Included Video Files &ndash; <span class="text-muted">{{formData.files.length}} videos</span></h3>
+
+      <p>Select the video files you would like included in your randomizer.</p>
+
+      <p class="text-danger">Note: Drag and drop is currently <strong>NOT</strong> supported.</p>
 
       <div class="input-group">
         <input type="file" class="form-control" ref="filepicker" accept="video/*" multiple @change="filesSelected"/>

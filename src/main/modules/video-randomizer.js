@@ -7,7 +7,6 @@ const randomizerStore = new Store('video-randomizer');
 
 ipcMain.handle('create-randomizer-file', (event, formData) => {
   const settingsStr = '{/* settings */}'
-  const destFile = 'randomizer.html'
 
   if(formData.files.length < 1){
     return {
@@ -18,7 +17,7 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
   }
 
   const templateFileContents = fs.readFileSync(
-    path.join(app.getAppPath(), 'static', 'randomizer-play.html'),
+    path.join(app.getAppPath(), 'static', 'randomizer-tmpl.html'),
     { encoding:'utf8', flag:'r' }
   );
 
@@ -31,10 +30,19 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
   )
   if(!fs.existsSync(defaultRandomizerFolder)) fs.mkdirSync(defaultRandomizerFolder)
 
-  const filePath = path.join(
+  let filePath = path.join(
     defaultRandomizerFolder,
-    destFile
+    'randomizer.html'
   )
+  index = 0
+  while(fs.existsSync(filePath)){
+    index++;
+    filePath = path.join(
+      defaultRandomizerFolder,
+      `randomizer${index}.html`
+    )
+    if(index > 10) break;
+  }
 
   const userSelectedPath = dialog.showSaveDialogSync({
     title: 'Save Your Randomizer File.',
