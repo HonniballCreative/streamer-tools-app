@@ -26,7 +26,7 @@ app.config.globalProperties.UI_PREFERENCES = uiPrefs
 
 app.config.globalProperties.LINKS = {
   troubleshooting: 'https://streameredu.com/troubleshooting',
-  twitter: 'https://twitter.com/StreamerEdu',
+  twitter: 'https://twitter.com/Streamerific',
   youtube: 'https://www.youtube.com/channel/UCif1IkNaiXd2xe0G_tz1F2w',
 }
 

@@ -6,6 +6,10 @@ contextBridge.exposeInMainWorld('electron', {
     let prefs = ipcRenderer.sendSync('load-preferences', type)
     return prefs
   },
+  loadBlogPosts: (useLive = false) => {
+    let posts = ipcRenderer.sendSync('get-blog-posts', useLive)
+    return posts
+  },
 })
 
 ipcRenderer.on('form-process-success', (event, arg) => {

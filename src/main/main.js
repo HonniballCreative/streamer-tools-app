@@ -1,10 +1,13 @@
 const { app, BrowserWindow, ipcMain, shell } = require('electron')
 const path = require('path')
 const fs = require('fs')
+const fetch = require('node-fetch')
+const xml2js = require('xml2js')
 
 const Store = require('./store/index.js')
 
 const userPreferences = new Store('ui');
+
 
 function createWindow () {
   const appDir = path.join(app.getPath('documents'), app.getName())
@@ -23,7 +26,7 @@ function createWindow () {
     }
   });
 
-  if(process.env.NODE_ENV === 'development') {
+  if(process.env.NODE_ENV === 'development'){
     const rendererPort = process.argv[2];
     const loadUrl = `http://127.0.0.1:${rendererPort}`;
     mainWindow.loadURL(loadUrl);
@@ -67,6 +70,29 @@ app.on('window-all-closed', function () {
 ipcMain.on('load-preferences', (event, type) => {
   const prefs = new Store(type);
   event.returnValue = prefs.data
+})
+
+ipcMain.on('get-blog-posts', async (event, useLive = false) => {
+  const parser = new xml2js.Parser({
+    mergeAttrs: true,
+    explicitArray: false,
+    charkey: 'text',
+  })
+
+  let url = 'https://streameredu.com'
+  if(process.env.NODE_ENV === 'development' && !useLive){
+    url = 'http://127.0.0.1:4000'
+  }
+
+  const response = await fetch(`${url}/feed/by_tag/streamerific.xml`)
+  const xml = await response.text();
+  let json
+  await parser.parseString(xml, (err, result) => {
+    json = result
+  });
+  const entries = (Array.isArray(json.feed.entry)) ? json.feed.entry : [json.feed.entry]
+  // const entries = json
+  event.returnValue = entries
 })
 
 require('./modules/video-randomizer.js')
