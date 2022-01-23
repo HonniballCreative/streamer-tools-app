@@ -1,7 +1,7 @@
 {
   "name": "stream-tools-app",
   "productName": "Streamerific Tools",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "description": "Streamerific stream tools application.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",

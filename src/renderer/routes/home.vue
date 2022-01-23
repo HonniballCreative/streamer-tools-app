@@ -19,7 +19,6 @@ export default defineComponent({
         {
           icon: 'fas fa-film',
           title: 'Video Randomizer',
-          summary: 'Create browser source compatible files to pick a random video from a list of files that you choose!',
           route: 'VideoRandomizerIndex',
           btn_text: 'Configure',
           img: '/img/tools/video-randomizer.png',
@@ -27,35 +26,30 @@ export default defineComponent({
         {
           icon: 'fas fa-text-width',
           title: 'Text Animator',
-          summary: 'Text animations made simple! Configure with an online form, copy the URL, and paste into an OBS Browser source.',
           link: 'https://streameredu.com/obs-studio-text-animator',
           img: '/img/tools/text-animator.png',
         },
         {
           icon: 'fas fa-image',
           title: 'Image Animator',
-          summary: 'Image animations made simple! Configure with an online form, copy the URL, and paste into an OBS Browser source.',
           link: 'https://streameredu.com/obs-studio-image-animator',
           img: '/img/tools/image-animator.png',
         },
         {
           icon: 'far fa-stopwatch',
           title: 'Countdown Timer',
-          summary: 'Stream countdown timer made simple! Configure with an online form, copy the URL, and paste into an OBS Browser source.',
           link: 'https://streameredu.com/obs-studio-countdown-timer',
           img: '/img/tools/countdown-timer.png',
         },
         {
           icon: 'far fa-clock',
           title: 'Countdown to Time',
-          summary: 'Stream countdown to a spacific time made simple! Configure with an online form, copy the URL, and paste into an OBS Browser source.',
           link: 'https://streameredu.com/obs-studio-countdown-to-time',
           img: '/img/tools/countdown-to-time.png',
         },
         {
           icon: 'fab fa-youtube',
           title: 'YouTube Playlist Randomizer',
-          summary: 'Randomize any public YouTube playlist for your stream! Configure with an online form, copy the URL, and paste into an OBS Browser source.',
           link: 'https://streameredu.com/obs-studio-youtube-playlist-randomizer',
           img: '/img/tools/youtube-playlist-randomizer.png',
         },
