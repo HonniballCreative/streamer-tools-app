@@ -84,14 +84,19 @@ ipcMain.on('get-blog-posts', async (event, useLive = false) => {
     url = 'http://127.0.0.1:4000'
   }
 
-  const response = await fetch(`${url}/feed/by_tag/streamerific.xml`)
-  const xml = await response.text();
+  let xml
   let json
-  await parser.parseString(xml, (err, result) => {
-    json = result
-  });
-  const entries = (Array.isArray(json.feed.entry)) ? json.feed.entry : [json.feed.entry]
-  // const entries = json
+  let entries
+  try {
+    const response = await fetch(`${url}/feed/by_tag/streamerific.xml`)
+    xml = await response.text();
+    await parser.parseString(xml, (err, result) => {
+      json = result
+    });
+    entries = (Array.isArray(json.feed.entry)) ? json.feed.entry : [json.feed.entry]
+  } catch(e){
+    entries = []
+  }
   event.returnValue = entries
 })
 
