@@ -1,5 +1,5 @@
 {
-  "name": "stream-tools-app",
+  "name": "streameredu-tools-app",
   "productName": "StreamerEdu Tools",
   "version": "0.9.0",
   "description": "StreamerEdu tools application.",
@@ -12,7 +12,7 @@
     "build:mac": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --linux"
   },
-  "repository": "https://github.com/StreamerEdu/stream-tools-app",
+  "repository": "https://github.com/Streamerific/streameredu-tools-app",
   "author": {
     "name": "StreamerEdu",
     "url": "https://StreamerEdu.com"
