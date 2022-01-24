@@ -79,7 +79,7 @@ export default defineComponent({
 
     <h1 class="border-bottom py-2"><i class="fas fa-tools text-primary"></i> Tools</h1>
 
-    <div class="blog-posts row d-flex flex-wrap" v-if="blogPosts.length > 0">
+    <div class="row d-flex flex-wrap">
       <div
         class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mb-3"
         v-for="tool in tools"
@@ -131,7 +131,12 @@ export default defineComponent({
       </div>
     </div>
     <div class="no-posts" v-else>
-      None...
+      <div class="card text-dark bg-info bg-opacity-10">
+        <div class="card-body text-center">
+          <h5 class="card-title"><i class="far fa-bullhorn"></i> No Announcements!</h5>
+          <p class="card-text">We have no announcements to share. Enjoy the tools!</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
