@@ -1,13 +1,19 @@
 <script>
 import { defineComponent } from 'vue'
 import { ipcRenderer } from '@/electron'
-import { Modal } from 'bootstrap'
+import ModalDialog from '@/components/modal-dialog.vue'
 
 export default defineComponent({
   name: 'VideoRandomizerCreate',
 
+  components: {
+    ModalDialog,
+  },
+
   data() {
     return {
+      loading: false,
+
       formData: {
         version: '3.0.0',
         randomize: 'yes',
@@ -29,20 +35,24 @@ export default defineComponent({
 
   methods: {
     submitFormData(){
+      this.loading = 'Creating Randomizer'
+
       const convertedFormData = JSON.parse(JSON.stringify(this.formData))
       const promise = ipcRenderer.invoke('create-randomizer-file', convertedFormData)
 
       promise.then((result) => {
+        this.loading = false
+
         if(result.status === 'error'){
           this.error = result
-          this.errorDialog.show();
+          this.$refs['error-dialog'].show();
           return;
         } else if(result.status === 'cancelled'){
           return;
         }
 
         this.modalLink = result.savePath
-        this.successDialog.show();
+        this.$refs['success-dialog'].show();
       })
     },
 
@@ -83,26 +93,14 @@ export default defineComponent({
       }, 1000)
     }
   },
-
-  mounted(){
-    this.errorDialog = new Modal(this.$refs['errorDialog'], {
-      keyboard: false
-    })
-    this.successDialog = new Modal(this.$refs['successDialog'], {
-      keyboard: false
-    })
-  },
-
-  unmounted(){
-    this.errorDialog.dispose();
-    this.successDialog.dispose();
-  }
 });
 </script>
 
 
 <template>
   <div class="component-container" @drop.prevent="dropFile" @dragover.prevent>
+    <app-loader v-if="loading" :msg="loading" />
+
     <form id="form">
       <h1>Configure Your New Video Randomizer</h1>
 
@@ -238,39 +236,24 @@ export default defineComponent({
       </nav>
     </form>
 
-    <div class="modal fade" ref="errorDialog" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{error.title}}</h5>
-          </div>
-          <div class="modal-body">
-            <p>{{error.message}}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Ok</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal-dialog
+      ref="error-dialog"
+      :title="error.title"
+      :message="error.message"
+      btnColor="danger"
+    />
 
-    <div class="modal" ref="successDialog" tabindex="-1">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Your randomizer has been saved!</h5>
-          </div>
-          <div class="modal-body">
-            <p><strong>Your Browser Source URL:</strong></p>
-            <p class="font-monospace text-danger text-break border p-1 rounded">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
-            <p>We've also copied the URL for your browser source onto your clipboard.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal-dialog
+      ref="success-dialog"
+      title="Your randomizer has been saved!"
+      okText="Close"
+    >
+      <template v-slot:body>
+        <p><strong>Your Browser Source URL:</strong></p>
+        <p class="font-monospace text-danger text-break border p-1 rounded">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
+        <p>We've also copied the URL for your browser source onto your clipboard.</p>
+      </template>
+    </modal-dialog>
   </div>
 </template>
 
