@@ -183,7 +183,7 @@ export default defineComponent({
           </div>
           <div class="modal-body">
             <p>We were unable to locate the file for this randomizer.</p>
-            <p>To restore management within the Streamerific Tool App please move the file back to it's saved location then "Refresh File List".</p>
+            <p>To restore management within the StreamerEdu Tool App please move the file back to it's saved location then "Refresh File List".</p>
             <p>Otherwise, you can delete the randomizer within the App.</p>
           </div>
           <div class="modal-footer">

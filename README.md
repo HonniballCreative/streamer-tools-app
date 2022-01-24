@@ -1,1 +1,1 @@
-# Streamerific Stream Tools App
+# StreamerEdu Tools App

@@ -8,7 +8,7 @@
         "oneClick": false,
         "perMachine": false,
         "allowToChangeInstallationDirectory": true,
-        "shortcutName": "Streamerific Tools"
+        "shortcutName": "StreamerEdu Tools"
     },
     "win": {
         "target": "nsis"

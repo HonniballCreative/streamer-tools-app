@@ -74,8 +74,8 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <h1>Streamerific Tools!</h1>
-    <p class="lead fw-normal">Streamerific tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@Streamerific</a> on Twitter for all updates regarding new tools and products.</p>
+    <h1>StreamerEdu Tools!</h1>
+    <p class="lead fw-normal">StreamerEdu tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@StreamerEdu</a> on Twitter for all updates regarding new tools and products.</p>
 
     <h1 class="border-bottom py-2"><i class="fas fa-tools text-primary"></i> Tools</h1>
 

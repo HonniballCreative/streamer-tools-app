@@ -1,8 +1,8 @@
 {
   "name": "stream-tools-app",
-  "productName": "Streamerific Tools",
+  "productName": "StreamerEdu Tools",
   "version": "1.0.0",
-  "description": "Streamerific stream tools application.",
+  "description": "StreamerEdu tools application.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
@@ -12,10 +12,10 @@
     "build:mac": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder -c config/electron-builder.json --linux"
   },
-  "repository": "https://github.com/Streamerific/stream-tools-app",
+  "repository": "https://github.com/StreamerEdu/stream-tools-app",
   "author": {
-    "name": "Streamerific",
-    "url": "https://Streamerific.com"
+    "name": "StreamerEdu",
+    "url": "https://StreamerEdu.com"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.1",
