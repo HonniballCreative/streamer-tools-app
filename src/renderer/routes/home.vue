@@ -1,6 +1,6 @@
 <script>
 import { defineComponent } from 'vue'
-import { loadBlogPosts } from '@/electron'
+import { loadBlogPosts, loadUpdatePost } from '@/electron'
 
 import PostCard from '@/components/post-card.vue'
 
@@ -11,9 +11,11 @@ export default defineComponent({
 
   data() {
     const blogPosts = loadBlogPosts()
+    const updatePost = loadUpdatePost()
     return {
       loadingBlogPosts: false,
       blogPosts: blogPosts,
+      updatePost: updatePost,
 
       tools: [
         {
@@ -63,7 +65,9 @@ export default defineComponent({
       this.loadingBlogPosts = true
       setTimeout(() => {
         const blogPosts = loadBlogPosts()
+        const updatePost = loadUpdatePost()
         this.blogPosts = blogPosts
+        this.updatePost = updatePost
         this.loadingBlogPosts = false
       }, 1000)
     }
@@ -76,6 +80,38 @@ export default defineComponent({
   <div class="component-container">
     <h1>StreamerEdu Tools!</h1>
     <p class="lead fw-normal">StreamerEdu tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@StreamerEdu</a> on Twitter for all updates regarding new tools and products.</p>
+
+    <template v-if="updatePost">
+      <h1 class="border-bottom py-2"><i class="fas fa-file-upload text-primary"></i> App Update Available!</h1>
+      <p class="lead fw-normal">A new version is available for download. You are running verson: <span class="text-danger fw-bold">{{ APP_VERSION }}</span></p>
+
+      <div class="card text-dark bg-light mb-3 border-0">
+        <div class="card-body">
+          <div class="d-flex">
+            <div class="align-self-center flex-grow-1">
+              <h2 class="mb-3">
+                <a class="text-dark text-decoration-none" :href="updatePost.link.href">
+                  {{ updatePost.title.text }}
+                </a>
+              </h2>
+              <p class="mb-3 lead">
+                {{ updatePost.summary.text }}
+              </p>
+
+              <a class="btn btn-danger" :href="updatePost.link.href" target="_blank">
+                Get Update!
+              </a>
+            </div>
+
+              <img
+                class="img-fluid h-100 d-none d-md-inline-block w-25"
+                :src="updatePost['media:thumbnail'].url"
+                :alt="updatePost.title.text"
+              >
+          </div>
+        </div>
+      </div>
+    </template>
 
     <h1 class="border-bottom py-2"><i class="fas fa-tools text-primary"></i> Tools</h1>
 

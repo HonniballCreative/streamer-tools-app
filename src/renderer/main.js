@@ -5,7 +5,7 @@ import routes from '@/router/routes.js'
 
 import AppLoader from '@/components/app-loader.vue'
 
-import { loadPreferences } from '@/electron'
+import { loadPreferences, appVersion } from '@/electron'
 
 const router = createRouter({
   // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
@@ -23,6 +23,7 @@ const app = createApp(App);
 
 const uiPrefs = loadPreferences('ui')
 app.config.globalProperties.UI_PREFERENCES = uiPrefs
+app.config.globalProperties.APP_VERSION = appVersion
 
 app.config.globalProperties.LINKS = {
   troubleshooting: 'https://streameredu.com/troubleshooting-and-tips',

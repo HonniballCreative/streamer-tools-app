@@ -1,7 +1,9 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron')
+const pjson = require('../../package.json')
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer,
+  appVersion: pjson.version,
   loadPreferences: (type) => {
     let prefs = ipcRenderer.sendSync('load-preferences', type)
     return prefs
@@ -9,6 +11,10 @@ contextBridge.exposeInMainWorld('electron', {
   loadBlogPosts: (useLive = false) => {
     let posts = ipcRenderer.sendSync('get-blog-posts', useLive)
     return posts
+  },
+  loadUpdatePost: (useLive = false) => {
+    let post = ipcRenderer.sendSync('get-update-post', useLive)
+    return post
   },
 })
 

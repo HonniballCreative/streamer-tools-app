@@ -1,7 +1,7 @@
 {
   "name": "stream-tools-app",
   "productName": "StreamerEdu Tools",
-  "version": "1.0.0",
+  "version": "1.0.0-rc.1",
   "description": "StreamerEdu tools application.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",

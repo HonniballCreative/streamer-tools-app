@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const fetch = require('node-fetch')
 const xml2js = require('xml2js')
+const pjson = require('../../package.json')
 
 const Store = require('./store/index.js')
 
@@ -98,6 +99,37 @@ ipcMain.on('get-blog-posts', async (event, useLive = false) => {
     entries = []
   }
   event.returnValue = entries
+})
+
+ipcMain.on('get-update-post', async (event, useLive = false) => {
+  const parser = new xml2js.Parser({
+    mergeAttrs: true,
+    explicitArray: false,
+    charkey: 'text',
+  })
+
+  let url = 'https://streameredu.com'
+  if(process.env.NODE_ENV === 'development' && !useLive){
+    url = 'http://127.0.0.1:4000'
+  }
+
+  let xml
+  let json
+  let entry
+  try {
+    const response = await fetch(`${url}/feed/by_tag/updates.xml`)
+    xml = await response.text();
+    await parser.parseString(xml, (err, result) => {
+      json = result
+    });
+    entry = (Array.isArray(json.feed.entry)) ? json.feed.entry[0] : json.feed.entry
+    if(entry.title.text.endsWith(`v${pjson.version}`)){
+      entry = null
+    }
+  } catch(e){
+    entry = null
+  }
+  event.returnValue = entry
 })
 
 require('./modules/video-randomizer.js')
