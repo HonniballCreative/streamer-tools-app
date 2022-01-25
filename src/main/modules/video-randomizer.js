@@ -26,7 +26,7 @@ ipcMain.handle('create-randomizer-file', (event, formData) => {
   const defaultRandomizerFolder = path.join(
     (app || remote.app).getPath('documents'),
     app.getName(),
-    'video-randomizers'
+    'Randomizers'
   )
   if(!fs.existsSync(defaultRandomizerFolder)) fs.mkdirSync(defaultRandomizerFolder)
 

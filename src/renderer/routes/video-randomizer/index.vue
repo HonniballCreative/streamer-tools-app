@@ -1,12 +1,16 @@
 <script>
 import { defineComponent } from 'vue'
 import { ipcRenderer, loadPreferences } from '@/electron'
-import { Modal } from 'bootstrap'
+import ModalDialog from '@/components/modal-dialog.vue'
 
 import { copyText } from 'vue3-clipboard'
 
 export default defineComponent({
   name: 'VideoRandomizerIndex',
+
+  components: {
+    ModalDialog,
+  },
 
   data() {
     const prefs = loadPreferences('video-randomizer')
@@ -28,6 +32,7 @@ export default defineComponent({
         this.loadingPrefs = false
       }, 2000)
     },
+
     copyText(e, text){
       copyText(text, undefined, (error, event) => {
         let standardClasses = [
@@ -59,6 +64,11 @@ export default defineComponent({
       })
     },
 
+    confirmDelete(file){
+      this.fileToDelete = file.path;
+      this.$refs['confirm-delete-dialog'].show();
+    },
+
     deleteRandomizer(){
       const promise = ipcRenderer.invoke('delete-randomizer-file', this.fileToDelete)
       promise.then((result) => {
@@ -68,16 +78,6 @@ export default defineComponent({
       })
     },
   },
-
-  mounted(){
-    this.deleteDialog = new Modal(this.$refs['deleteDialog'], {
-      keyboard: false
-    })
-  },
-
-  unmounted(){
-    this.deleteDialog.dispose();
-  }
 });
 </script>1
 
@@ -121,12 +121,9 @@ export default defineComponent({
     <ul class="list-group mt-3" id="listing" v-if="files.length > 0">
       <li class="list-group-item" v-for="file in files" :key="file.path">
         <span v-if="file.valid === true">
-          <i class="d-none fas fa-pencil text-success cursor-pointer p-2"
-            data-bs-toggle="modal" data-bs-target="#coming-soon"
-          ></i>
           <i class="fas fa-trash text-danger cursor-pointer p-2"
             data-bs-toggle="modal" data-bs-target="#delete-confirmation"
-            @click="fileToDelete = file.path"
+            @click="confirmDelete(file)"
           ></i>
           <i class="fas fa-copy fa-fw text-primary cursor-pointer ms-auto p-2"
             @click="copyText($event, `file:///${file.path.replace(/\\{1,2}/g, '/')}`)"
@@ -135,8 +132,7 @@ export default defineComponent({
         <span v-else>
           <span
             class="text-danger cursor-pointer"
-            data-bs-toggle="modal" data-bs-target="#not-found"
-            @click="fileToDelete = file.path"
+            @click="confirmDelete(file)"
           >
             Not Found!
           </span>
@@ -159,60 +155,38 @@ export default defineComponent({
       </div>
     </div>
 
-    <div class="modal fade" id="coming-soon" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Coming Soon!</h5>
-          </div>
-          <div class="modal-body">
-            <p>This feature is not available yet.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal-dialog
+      ref="missing-file"
+      title="Unable to Locate File"
+      btnColor="danger"
+    >
+      <template v-slot:body>
+        <p>We were unable to locate the file for this randomizer.</p>
+        <p>To restore management within the StreamerEdu Tool App please move the file back to it's saved location then "Refresh File List".</p>
+        <p>Otherwise, you can delete the randomizer within the App.</p>
+      </template>
+      <template v-slot:footer>
+        <button type="button" class="btn btn-outline-danger me-auto" data-bs-dismiss="modal" @click="deleteRandomizer()">Delete</button>
+        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" @click="refreshPrefs">Refresh File List</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
+      </template>
+    </modal-dialog>
 
-    <div class="modal fade" id="not-found" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Unable to Locate File</h5>
-          </div>
-          <div class="modal-body">
-            <p>We were unable to locate the file for this randomizer.</p>
-            <p>To restore management within the StreamerEdu Tool App please move the file back to it's saved location then "Refresh File List".</p>
-            <p>Otherwise, you can delete the randomizer within the App.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-danger me-auto" data-bs-dismiss="modal" @click="deleteRandomizer()">Delete</button>
-            <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" @click="refreshPrefs">Refresh File List</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ok</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div ref="deleteDialog" class="modal fade" id="delete-confirmation" tabindex="-1">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Are you sure you want to delete this randomizer?</h5>
-          </div>
-          <div class="modal-body">
-            <p>Are you sure you want to delete this randomizer?</p>
-            <p class="font-monospace text-primary">{{fileToDelete}}</p>
-            <p class="text-danger fw-bold">This action is non-reversible!</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" @click="fileToDelete = null">Close</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="deleteRandomizer()">Yes, Delete</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal-dialog
+      ref="confirm-delete-dialog"
+      title="Are you sure you want to delete this randomizer?"
+      btnColor="danger"
+    >
+      <template v-slot:body>
+        <p>Are you sure you want to delete this randomizer?</p>
+        <p class="font-monospace text-primary">{{fileToDelete}}</p>
+        <p class="text-danger fw-bold">This action is non-reversible!</p>
+      </template>
+      <template v-slot:footer>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" @click="fileToDelete = null">Close</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" @click="deleteRandomizer()">Yes, Delete</button>
+      </template>
+    </modal-dialog>
   </div>
 </template>
 

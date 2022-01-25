@@ -250,7 +250,7 @@ export default defineComponent({
     >
       <template v-slot:body>
         <p><strong>Your Browser Source URL:</strong></p>
-        <p class="font-monospace text-danger text-break border p-1 rounded">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
+        <p class="font-monospace text-primary text-break border p-1 rounded">file:///{{modalLink.replace(/\\{1,2}/g, '/')}}</p>
         <p>We've also copied the URL for your browser source onto your clipboard.</p>
       </template>
     </modal-dialog>
