@@ -23,37 +23,37 @@ export default defineComponent({
           title: 'Video Randomizer',
           route: 'VideoRandomizerIndex',
           btn_text: 'Configure',
-          img: '/img/tools/video-randomizer.png',
+          img: 'img/tools/video-randomizer.png',
         },
         {
           icon: 'fas fa-text-width',
           title: 'Text Animator',
           link: 'https://streameredu.com/obs-studio-text-animator',
-          img: '/img/tools/text-animator.png',
+          img: 'img/tools/text-animator.png',
         },
         {
           icon: 'fas fa-image',
           title: 'Image Animator',
           link: 'https://streameredu.com/obs-studio-image-animator',
-          img: '/img/tools/image-animator.png',
+          img: 'img/tools/image-animator.png',
         },
         {
           icon: 'far fa-stopwatch',
           title: 'Countdown Timer',
           link: 'https://streameredu.com/obs-studio-countdown-timer',
-          img: '/img/tools/countdown-timer.png',
+          img: 'img/tools/countdown-timer.png',
         },
         {
           icon: 'far fa-clock',
           title: 'Countdown to Time',
           link: 'https://streameredu.com/obs-studio-countdown-to-time',
-          img: '/img/tools/countdown-to-time.png',
+          img: 'img/tools/countdown-to-time.png',
         },
         {
           icon: 'fab fa-youtube',
           title: 'YouTube Playlist Randomizer',
           link: 'https://streameredu.com/obs-studio-youtube-playlist-randomizer',
-          img: '/img/tools/youtube-playlist-randomizer.png',
+          img: 'img/tools/youtube-playlist-randomizer.png',
         },
       ]
     }
@@ -117,7 +117,7 @@ export default defineComponent({
 
     <div class="row d-flex flex-wrap">
       <div
-        class="col-12 col-md-6 col-lg-4 d-flex align-items-stretch mb-3"
+        class="col-12 col-md-6 col-lg-4 mb-3"
         v-for="tool in tools"
         :key="tool.route"
       >
@@ -125,7 +125,7 @@ export default defineComponent({
           :to="{ name: tool.route }"
           v-if="tool.btn_text"
         >
-          <img :src="tool.img" class="rounded" :alt="tool.title">
+          <img :src="tool.img" class="img-fluid rounded" :alt="tool.title">
         </router-link>
         <a
           class="position-relative"
@@ -134,7 +134,7 @@ export default defineComponent({
           :to="{ name: tool.route }"
           v-if="tool.link"
         >
-          <img :src="tool.img" class="rounded" :alt="tool.title">
+          <img :src="tool.img" class="img-fluid rounded" :alt="tool.title">
           <div class="position-absolute bottom-0 end-0">
             <div class="rounded bg-black text-white bg-opacity-75 px-3 py-1 mb-2 me-2">
               <small>Opens in Browser <i class="fas fa-external-link"></i></small>
