@@ -1,7 +1,7 @@
 {
   "name": "streameredu-tools-app",
   "productName": "StreamerEdu Tools",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "OBS Studio stream tools.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",

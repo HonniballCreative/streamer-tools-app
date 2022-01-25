@@ -12,10 +12,11 @@
         "shortcutName": "StreamerEdu Tools"
     },
     "win": {
-        "target": "nsis"
+        "target": "nsis",
+        "icon": "build/renderer/img/icon.png"
     },
-    "linux":  {
-        "target": ["snap"]
+    "mac":  {
+        "icon": "build/renderer/img/icon.png"
     },
     "files": [
         "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
