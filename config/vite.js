@@ -14,7 +14,7 @@ const config = defineConfig({
     },
     open: false,
     build: {
-        outDir: Path.join(__dirname, '..', 'dist', 'renderer'),
+        outDir: Path.join(__dirname, '..', 'build', 'renderer'),
         emptyOutDir: true,
     },
     plugins: [vuePlugin()],

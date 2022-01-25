@@ -13,11 +13,10 @@ const router = createRouter({
   routes, // short for `routes: routes`
 })
 
-import App from './App.vue'
-
 import './scss/bootstrap.scss'
 import '../../node_modules/animate.css/animate.min.css'
-// import '../../node_modules/bootstrap/dist/js/bootstrap.min.js'
+
+import App from './App.vue'
 
 const app = createApp(App);
 
