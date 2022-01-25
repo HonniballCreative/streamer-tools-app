@@ -1,13 +1,13 @@
 {
   "name": "streameredu-tools-app",
   "productName": "StreamerEdu Tools",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "OBS Studio stream tools.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
     "dev": "node scripts/dev-server.js",
-    "build": "node scripts/build-vue.js && electron-builder",
+    "build": "node scripts/build-vue.js",
     "build:win": "node scripts/build-vue.js && electron-builder --win",
     "build:mac": "node scripts/build-vue.js && electron-builder --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder --linux"
