@@ -1,8 +1,7 @@
 {
     "appId": "com.streamerific-tools.app",
     "directories": {
-        "output": "build",
-        "buildResources": "resources"
+        "output": "build"
     },
     "nsis": {
         "oneClick": false,
