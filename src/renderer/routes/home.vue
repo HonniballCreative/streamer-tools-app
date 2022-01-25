@@ -117,18 +117,19 @@ export default defineComponent({
 
     <div class="row d-flex flex-wrap">
       <div
-        class="col-12 col-md-6 col-lg-4 mb-3"
+        class="col-12 col-md-6 col-lg-4 mb-3 d-flex align-items-stretch justify-content-around"
         v-for="tool in tools"
         :key="tool.route"
       >
         <router-link
+          class="text-center d-block"
           :to="{ name: tool.route }"
           v-if="tool.btn_text"
         >
           <img :src="tool.img" class="img-fluid rounded" :alt="tool.title">
         </router-link>
         <a
-          class="position-relative"
+          class="position-relative text-center d-block"
           target="_blank"
           :href="tool.link"
           :to="{ name: tool.route }"

@@ -1,5 +1,7 @@
 {
-    "appId": "com.streamerific-tools.app",
+    "appId": "com.electron.streamerific-tools",
+    "productName": "StreamerEdu Tools",
+    "copyright": "Copyright © year ${author}",
     "directories": {
         "output": "dist"
     },

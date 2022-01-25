@@ -30,4 +30,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+@import './scss/bootstrap.scss';
+@import '../../node_modules/animate.css/animate.min.css';
 </style>
