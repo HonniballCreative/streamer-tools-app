@@ -34,7 +34,7 @@ function createWindow () {
     mainWindow.loadURL(loadUrl);
     mainWindow.webContents.openDevTools()
   } else {
-    mainWindow.loadFile(path.join(app.getAppPath(), 'src', 'renderer', 'index.html'));
+    mainWindow.loadFile(path.join(app.getAppPath(), 'renderer', 'index.html'));
   }
 
   // The BrowserWindow class extends the node.js core EventEmitter class, so we use that API
