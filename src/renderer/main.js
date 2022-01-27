@@ -23,6 +23,7 @@ app.config.globalProperties.LINKS = {
   troubleshooting: 'https://streameredu.com/troubleshooting-and-tips',
   twitter: 'https://twitter.com/StreamerEdu',
   youtube: 'https://www.youtube.com/channel/UCif1IkNaiXd2xe0G_tz1F2w',
+  kofi: 'https://ko-fi.com/streamerific',
 }
 
 

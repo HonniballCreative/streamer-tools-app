@@ -6,7 +6,7 @@ import PostCard from '@/components/post-card.vue'
 
 export default defineComponent({
   components: {
-    PostCard
+    PostCard,
   },
 
   data() {
@@ -80,6 +80,14 @@ export default defineComponent({
   <div class="component-container">
     <h1>StreamerEdu Tools!</h1>
     <p class="lead fw-normal">StreamerEdu tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@StreamerEdu</a> on Twitter for all updates regarding new tools and products.</p>
+
+    <p class="lead fw-normal">I plan on making plenty of other tools for streamers. All the tools that I create will <strong>always be FREE</strong>!</p>
+
+    <a :href="LINKS.kofi" target="_blank">
+      <img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support Development on Ko-fi">
+    </a>
+
+    <div class="spacer" style="height: 50px;"></div>
 
     <template v-if="updatePost">
       <h1 class="border-bottom py-2"><i class="fas fa-file-upload text-primary"></i> App Update Available!</h1>
@@ -175,6 +183,8 @@ export default defineComponent({
         </div>
       </div>
     </div>
+
+    <div class="spacer" style="height: 50px;"></div>
   </div>
 </template>
 

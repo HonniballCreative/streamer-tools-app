@@ -89,7 +89,7 @@ ipcMain.on('get-blog-posts', async (event, useLive = false) => {
   let json
   let entries
   try {
-    const response = await fetch(`${url}/feed/by_tag/streamerific.xml`)
+    const response = await fetch(`${url}/feed/by_tag/app.xml`)
     xml = await response.text();
     await parser.parseString(xml, (err, result) => {
       json = result
