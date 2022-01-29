@@ -1,8 +1,8 @@
 {
-  "name": "streameredu-tools-app",
-  "productName": "StreamerEdu Tools",
-  "version": "1.0.0-rc.2",
-  "description": "OBS Studio stream tools.",
+  "name": "streamer-tools-app",
+  "productName": "Streamer Tools",
+  "version": "1.0.0-rc.3",
+  "description": "OBS Studio streamer tools.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",
   "scripts": {
@@ -12,7 +12,7 @@
     "build:mac": "node scripts/build-vue.js && electron-builder --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder --linux"
   },
-  "repository": "https://github.com/Streamerific/streameredu-tools-app",
+  "repository": "https://github.com/Streamerific/streamer-tools-app",
   "author": {
     "name": "StreamerEdu",
     "url": "https://StreamerEdu.com"
@@ -37,8 +37,8 @@
     "xml2js": "^0.4.23"
   },
   "build": {
-    "appId": "com.electron.streamerific-tools",
-    "productName": "StreamerEdu Tools",
+    "appId": "com.electron.streamer-tools",
+    "productName": "Streamer Tools",
     "copyright": "Copyright © year ${author}",
     "directories": {
       "output": "dist"
@@ -47,7 +47,7 @@
       "oneClick": false,
       "perMachine": false,
       "allowToChangeInstallationDirectory": true,
-      "shortcutName": "StreamerEdu Tools"
+      "shortcutName": "Streamer Tools"
     },
     "win": {
       "target": "nsis",

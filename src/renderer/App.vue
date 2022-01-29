@@ -25,7 +25,7 @@ export default defineComponent({
   },
   mounted() {
     this.loading = false
-    document.title = `StreamerEdu Tools v${this.APP_VERSION}`;
+    document.title = `Streamer Tools v${this.APP_VERSION}`;
   },
 });
 </script>

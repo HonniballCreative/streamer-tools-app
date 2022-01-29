@@ -78,8 +78,8 @@ export default defineComponent({
 
 <template>
   <div class="component-container">
-    <h1>StreamerEdu Tools!</h1>
-    <p class="lead fw-normal">StreamerEdu tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@StreamerEdu</a> on Twitter for all updates regarding new tools and products.</p>
+    <h1>Streamer Tools!</h1>
+    <p class="lead fw-normal">Streamer Tools are a collection of OBS Studio helpers that simplify the process of creating various features for your live stream. Please follow us on <a class="text-decoration-none" :href="LINKS.twitter" target="_blank">@StreamerEdu</a> on Twitter for all updates regarding new tools and products.</p>
 
     <p class="lead fw-normal">I plan on making plenty of other tools for streamers. All the tools that I create will <strong>always be FREE</strong>!</p>
 
