@@ -1,7 +1,7 @@
 {
   "name": "streamer-tools-app",
   "productName": "Streamer Tools",
-  "version": "1.0.0-rc.3",
+  "version": "1.0.0",
   "description": "OBS Studio streamer tools.",
   "main": "src/main/main.js",
   "license": "GPL-3.0-or-later",
