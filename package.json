@@ -12,7 +12,7 @@
     "build:mac": "node scripts/build-vue.js && electron-builder --mac",
     "build:linux": "node scripts/build-vue.js && electron-builder --linux"
   },
-  "repository": "https://github.com/Streamerific/streamer-tools-app",
+  "repository": "https://github.com/HonniballCreative/streamer-tools-app",
   "author": {
     "name": "StreamerEdu",
     "url": "https://StreamerEdu.com"
